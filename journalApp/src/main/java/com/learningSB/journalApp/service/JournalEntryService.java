@@ -27,7 +27,6 @@ public class JournalEntryService {
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
             user.getJournalEntries().add(saved);
-            user.setJournalEntries(null);
             userService.saveEntry(user);
         } catch (Exception e) {
             System.out.println(e);
