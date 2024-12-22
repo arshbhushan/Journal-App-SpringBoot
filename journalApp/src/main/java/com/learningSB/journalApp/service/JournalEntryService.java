@@ -6,6 +6,7 @@ import com.learningSB.journalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,12 +20,20 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    @Transactional  //this will make sure that ever line is executed like a single line of code as one and no line is left.
     public void saveEntry(JournalEntry journalEntry, String userName) {
-        User user= userService.findByUsername(userName);
-        journalEntry.setDate(LocalDateTime.now());
-        JournalEntry saved = journalEntryRepository.save(journalEntry);
-        user.getJournalEntries().add(saved);
-        userService.saveEntry(user);
+        try {
+            User user= userService.findByUsername(userName);
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            user.setJournalEntries(null);
+            userService.saveEntry(user);
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("Error saving journal entry",e);
+        }
+
     }
     public void saveEntry(JournalEntry journalEntry) {
 
