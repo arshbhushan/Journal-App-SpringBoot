@@ -2,6 +2,7 @@ package com.learningSB.journalApp.controller;
 
 import com.learningSB.journalApp.entity.JournalEntry;
 import com.learningSB.journalApp.entity.User;
+import com.learningSB.journalApp.repository.UserRepository;
 import com.learningSB.journalApp.service.JournalEntryService;
 import com.learningSB.journalApp.service.UserService;
 import org.bson.types.ObjectId;
@@ -23,6 +24,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -44,6 +47,13 @@ public class UserController {
             userInDb.setPassword(user.getPassword());
             userService.saveEntry(userInDb);
         }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/user")
+    public ResponseEntity<?> deleteUserById() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
