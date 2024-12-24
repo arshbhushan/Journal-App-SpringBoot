@@ -1,8 +1,6 @@
 package com.learningSB.journalApp.service;
 
-import com.learningSB.journalApp.entity.JournalEntry;
 import com.learningSB.journalApp.entity.User;
-import com.learningSB.journalApp.repository.JournalEntryRepository;
 import com.learningSB.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +20,15 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
 
-public void saveEntry(User user) {
+public void saveNewEntry(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRoles(Arrays.asList("USER"));
     userRepository.save(user);
 }
 
-/*    public void saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
+    public void saveNewUser(User user) {
         userRepository.save(user);
-    }*/
+    }
 
 public List<User> getAll() {
     return userRepository.findAll();
