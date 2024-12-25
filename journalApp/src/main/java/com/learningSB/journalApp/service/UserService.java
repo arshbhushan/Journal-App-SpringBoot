@@ -26,8 +26,9 @@ public void saveNewEntry(User user) {
     userRepository.save(user);
 }
 
-    public void saveNewUser(User user) {
+    public boolean saveNewUser(User user) {
         userRepository.save(user);
+        return false;
     }
 
     public void saveAdmin(User user) {
