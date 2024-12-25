@@ -1,8 +1,7 @@
 package com.learningSB.journalApp.entity;
 
-import jdk.internal.util.StaticProperty;
-import lombok.Data;
-import lombok.NonNull;
+//import jdk.internal.util.StaticProperty;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,21 +12,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Document(collection = "users")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
     @Id
     private ObjectId id;
     @Indexed(unique = true)
     @NonNull
     private String userName;
+    private String email;
+    private boolean sentimentAnalysis;
     @NonNull
     private String password;
-    @DBRef // creates a ref in user collection for journal entries.
-    private List<JournalEntry> journalEntries=new ArrayList<>();
-    private List<String>roles;
-
-    public static StaticProperty builder() {
-        return null;
-    }
+    @DBRef
+    private List<JournalEntry> journalEntries = new ArrayList<>();
+    private List<String> roles;
 }
