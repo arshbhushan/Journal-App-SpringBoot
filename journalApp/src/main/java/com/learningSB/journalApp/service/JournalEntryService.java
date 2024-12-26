@@ -4,6 +4,8 @@ import com.learningSB.journalApp.entity.JournalEntry;
 import com.learningSB.journalApp.entity.User;
 import com.learningSB.journalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
+
     @Transactional
     //this will make sure that ever line is executed like a single line of code as one and no line is left.
     public void saveEntry(JournalEntry journalEntry, String userName) {
@@ -30,7 +34,7 @@ public class JournalEntryService {
             user.getJournalEntries().add(saved);
             userService.saveNewUser(user);
         } catch (Exception e) {
-            System.out.println(e);
+            logger.info("failed to save journal entry");
             throw new RuntimeException("Error saving journal entry", e);
         }
 
