@@ -2,6 +2,7 @@ package com.learningSB.journalApp.service;
 
 import com.learningSB.journalApp.entity.User;
 import com.learningSB.journalApp.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
     private static final PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    //private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public void saveNewEntry(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -36,7 +38,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         }catch (Exception e){
-            logger.info("Error saving new user");
+            log.info("Error saving new user");
             return false;
 
         }
