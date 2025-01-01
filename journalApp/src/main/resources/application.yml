@@ -1,0 +1,47 @@
+spring:
+  server:
+    port: ${SERVER_PORT}
+    servlet:
+      context-path: /journal
+  main:
+    allow-circular-references: true
+  data:
+    mongodb:
+      uri: ${MONGODB_HOST}
+      database: journalDB
+      auto-index-creation: true
+    redis:
+      uri: ${REDIS_HOST}
+      port: 12663
+      password: ${REDIS_PASSWORD}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${JAVA_EMAIL}
+    password: ${JAVA_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: weekly-sentiment-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.learningSB.journalApp.model
+    properties:
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+      sasl.jaas.config: |
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username="x"
+        password="x";
+      session.timeout.ms: 45000
+    client-id: ${CLIENT_ID}
