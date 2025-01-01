@@ -1,5 +1,6 @@
 package com.learningSB.journalApp.config;
 
+import com.learningSB.journalApp.filter.JwtFilter;
 import com.learningSB.journalApp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -27,19 +29,22 @@ public class SpringSecurity  {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-
-        return http.authorizeHttpRequests(request -> request
+        http.authorizeHttpRequests(request -> request
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/journal/**", "/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
+                .csrf(AbstractHttpConfigurer::disable);
+
+        // Ensure this line is called before the build method
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
 
