@@ -21,7 +21,9 @@ ENV SERVER_PORT=8080 \
     JAVA_EMAIL=example@example.com \
     JAVA_EMAIL_PASSWORD=securepassword \
     KAFKA_SERVERS=localhost:9092 \
-    CLIENT_ID=journal-app-client
+    CLIENT_ID=journal-app-client \
+    GOOGLE_CLIENT_ID=your-google-client-id \
+    GOOGLE_CLIENT_SECRET=your-google-client-secret
 
 # Set the working directory inside the container
 WORKDIR /app
