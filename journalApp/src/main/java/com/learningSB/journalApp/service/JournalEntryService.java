@@ -71,7 +71,5 @@ public class JournalEntryService {
         return removed;
     }
 }
-/*public List<JournalEntry> findByUserName(String userName) {
 
-}*/
 
