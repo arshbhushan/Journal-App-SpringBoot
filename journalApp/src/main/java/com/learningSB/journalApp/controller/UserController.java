@@ -52,7 +52,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping("/user")
-    public ResponseEntity<?> greetintg() {
+    public ResponseEntity<?> greeting() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new ResponseEntity<>("Hello"+authentication.getName(),HttpStatus.OK);
     }
