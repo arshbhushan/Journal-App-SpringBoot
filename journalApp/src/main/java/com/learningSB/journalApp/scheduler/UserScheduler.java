@@ -5,10 +5,9 @@ import com.learningSB.journalApp.emuns.Sentiment;
 import com.learningSB.journalApp.entity.JournalEntry;
 import com.learningSB.journalApp.entity.User;
 import com.learningSB.journalApp.model.SentimentData;
-import com.learningSB.journalApp.repository.UserRepository;
 import com.learningSB.journalApp.repository.UserRepositoryImpl;
 import com.learningSB.journalApp.service.EmailService;
-import com.learningSB.journalApp.service.SentimentAnalysisServce;
+import com.learningSB.journalApp.service.SentimentAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +30,7 @@ public class UserScheduler {
     private UserRepositoryImpl userRepository;
 
     @Autowired
-    private SentimentAnalysisServce sentimentAnalysisServce;
+    private SentimentAnalysisService sentimentAnalysisService;
 
     @Autowired
     private AppCache appCache;
