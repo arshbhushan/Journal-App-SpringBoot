@@ -3,6 +3,7 @@ package com.learningSB.journalApp.controller;
 import com.learningSB.journalApp.entity.User;
 import com.learningSB.journalApp.service.UserService;
 import com.learningSB.journalApp.utils.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/public")
@@ -35,7 +38,10 @@ public class PublicController {
     public String healthCheck() {
         return "OK";
     }
-
+    @GetMapping("/home")
+    public void home(HttpServletResponse response) throws IOException {
+        response.sendRedirect("https://documenter.getpostman.com/view/26251468/2sAYQZGBg2");
+    }
     @PostMapping("/signup")
     public void signup(@RequestBody User user) {
         userService.saveNewEntry(user);
